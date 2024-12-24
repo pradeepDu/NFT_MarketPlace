@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-type Props = {}
-
-type State = {}
-
-export default class HelpCenter extends Component<Props, State> {
-  state = {}
-
-  render() {
-    return (
-      <div>HelpCenter</div>
-    )
-  }
+const HelpCenter = () => {
+  return (
+    <div>HelpCenter</div>
+  )
 }
+
+export default HelpCenter

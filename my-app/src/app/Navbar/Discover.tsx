@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-type Props = {}
-
-type State = {}
-
-export default class Discover extends Component<Props, State> {
-  state = {}
-
-  render() {
-    return (
-      <div>Discover</div>
-    )
-  }
+const Discover = () => {
+  return (
+    <div>Discover</div>
+  )
 }
+
+export default Discover
