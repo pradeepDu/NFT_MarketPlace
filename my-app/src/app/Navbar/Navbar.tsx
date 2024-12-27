@@ -6,6 +6,8 @@ import { MdNotifications } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { CgMenuLeft, CgMenuRight } from "react-icons/cg";
 import Discover from "./Discover";
+import HelpCenter from "./HelpCenter";
+import Notification from "./Notification";
 
 const Navbar = () => {
   const [discover, setDiscover] = useState(false);
@@ -46,13 +48,14 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <Link
-              href="#"
-              className="hover:underline"
-              onClick={() => setHelp(!help)}
-            >
+            <button className="hover:underline" onClick={() => setHelp(!help)}>
               Help Center
-            </Link>
+            </button>
+            {help && (
+              <div className="absolute top-full mt-2 z-50">
+                <HelpCenter />
+              </div>
+            )}
           </div>
 
           {/* Right Section */}
@@ -68,9 +71,19 @@ const Navbar = () => {
               </button>
             </div>
 
-            <button onClick={() => setNotification(!notification)}>
-              <MdNotifications size={24} />
-            </button>
+            {/* Notification Bell */}
+            <div className="relative">
+              <button onClick={() => setNotification(!notification)}>
+                <MdNotifications size={24} />
+              </button>
+              {notification && (
+                <div className="absolute top-full right-0 mt-2 w-80">
+                  <Notification />
+                </div>
+              )}
+            </div>
+
+            {/* Profile Icon */}
             <button onClick={() => setProfile(!profile)}>
               <span className="rounded-full bg-gray-600 p-2">P</span>
             </button>
