@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { MdNotifications } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
@@ -8,25 +8,42 @@ import { CgMenuLeft, CgMenuRight } from "react-icons/cg";
 import Discover from "./Discover";
 import HelpCenter from "./HelpCenter";
 import Notification from "./Notification";
+import Profile from "./Profile";
 
 const Navbar = () => {
-  const [discover, setDiscover] = useState(false);
-  const [notification, setNotification] = useState(false);
-  const [profile, setProfile] = useState(false);
-  const [openSideMenu, setOpenSideMenu] = useState(false);
-  const [help, setHelp] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(""); // Keeps track of the active dropdown
+  const dropdownRef = useRef<HTMLDivElement>(null); // Reference for detecting outside clicks
+
+  // Function to handle dropdown toggle
+  const toggleDropdown = (dropdown: string) => {
+    setActiveDropdown((prev) => (prev === dropdown ? "" : dropdown));
+  };
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <nav className="w-full bg-gray-800 text-white p-4">
         <div className="flex justify-between items-center">
           {/* Left Section */}
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setOpenSideMenu(!openSideMenu)}
+              onClick={() => toggleDropdown("menu")}
               className="text-2xl"
             >
-              {openSideMenu ? <CgMenuRight /> : <CgMenuLeft />}
+              {activeDropdown === "menu" ? <CgMenuRight /> : <CgMenuLeft />}
             </button>
             <Link href="/" className="text-xl font-bold">
               Logo
@@ -38,20 +55,23 @@ const Navbar = () => {
             <div className="relative">
               <button
                 className="hover:underline"
-                onClick={() => setDiscover(!discover)}
+                onClick={() => toggleDropdown("discover")}
               >
                 Discover
               </button>
-              {discover && (
+              {activeDropdown === "discover" && (
                 <div className="absolute top-full mt-2 z-50">
                   <Discover />
                 </div>
               )}
             </div>
-            <button className="hover:underline" onClick={() => setHelp(!help)}>
+            <button
+              className="hover:underline"
+              onClick={() => toggleDropdown("help")}
+            >
               Help Center
             </button>
-            {help && (
+            {activeDropdown === "help" && (
               <div className="absolute top-full mt-2 z-50">
                 <HelpCenter />
               </div>
@@ -73,10 +93,10 @@ const Navbar = () => {
 
             {/* Notification Bell */}
             <div className="relative">
-              <button onClick={() => setNotification(!notification)}>
+              <button onClick={() => toggleDropdown("notification")}>
                 <MdNotifications size={24} />
               </button>
-              {notification && (
+              {activeDropdown === "notification" && (
                 <div className="absolute top-full right-0 mt-2 w-80">
                   <Notification />
                 </div>
@@ -84,9 +104,16 @@ const Navbar = () => {
             </div>
 
             {/* Profile Icon */}
-            <button onClick={() => setProfile(!profile)}>
-              <span className="rounded-full bg-gray-600 p-2">P</span>
-            </button>
+            <div className="relative">
+              <button onClick={() => toggleDropdown("profile")}>
+                <span className="rounded-full bg-gray-600 p-2">P</span>
+              </button>
+              {activeDropdown === "profile" && (
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white text-black rounded-md shadow-lg p-4 z-50">
+                  <Profile />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
