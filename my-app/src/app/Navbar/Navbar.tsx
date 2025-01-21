@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { MdNotifications } from "react-icons/md";
@@ -9,14 +8,26 @@ import Discover from "./Discover";
 import HelpCenter from "./HelpCenter";
 import Notification from "./Notification";
 import Profile from "./Profile";
+import Sidebar from "./Sidebar"; // Import Sidebar
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(""); // Keeps track of the active dropdown
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
   const dropdownRef = useRef<HTMLDivElement>(null); // Reference for detecting outside clicks
 
   // Function to handle dropdown toggle
   const toggleDropdown = (dropdown: string) => {
     setActiveDropdown((prev) => (prev === dropdown ? "" : dropdown));
+  };
+
+  // Function to toggle sidebar visibility
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+  // Function to close sidebar
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
   };
 
   // Close dropdown if clicked outside
@@ -39,11 +50,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Left Section */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => toggleDropdown("menu")}
-              className="text-2xl"
-            >
-              {activeDropdown === "menu" ? <CgMenuRight /> : <CgMenuLeft />}
+            <button onClick={toggleSidebar} className="text-2xl">
+              {isSidebarOpen ? <CgMenuRight /> : <CgMenuLeft />}
             </button>
             <Link href="/" className="text-xl font-bold">
               Logo
@@ -117,6 +125,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/* Sidebar */}
+      {isSidebarOpen && <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />}
     </div>
   );
 };
