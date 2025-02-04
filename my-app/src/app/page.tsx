@@ -2,6 +2,7 @@ import Image from "next/image";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer";
 
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
