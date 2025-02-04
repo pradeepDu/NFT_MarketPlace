@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Navbar from "./Navbar/Navbar";
-import Footer from "./Footer";
+
 
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex flex-col gap-8 items-center sm:items-start p-8 sm:p-20 font-[family-name:var(--font-geist-sans)] flex-grow">
         <Image
-          className="dark:invert"
+          className="dark:invert "
           src="/next.svg"
           alt="Next.js logo"
           width={180}
